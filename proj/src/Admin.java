@@ -5,7 +5,7 @@ import java.io.*;
 public class Admin {
     private static Connection con = connect();
     private static Scanner myObj = new Scanner(System.in);
-    public static void main() {
+    public static void start() {
         System.out.println("Administrator, what would you like to do?");
         System.out.println("1. Create tables");
         System.out.println("2. Delete tables");
@@ -28,7 +28,7 @@ public class Admin {
                 check_data();
                 break;
             case 5:
-                //
+                
                 break;
             default:
                 System.out.println("[ERROR] Invalid input");
