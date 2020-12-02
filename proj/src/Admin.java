@@ -48,7 +48,7 @@ public class Admin {
 
     public static void create_tables() {
 
-        String drivers = "CREATE TABLE IF NOT EXISTS Drivers (id integer NOT NULL,name varchar(30) NOT NULL,vehicle_id varchar(6) NOT NULL,driving_years integer NOT NULL,PRIMARY KEY (id),FOREIGN KEY (vehicle_id) REFERENCES Vehicles (id));";
+        String drivers = "CREATE TABLE IF NOT EXISTS Drivers (id integer NOT NULL AUTO_INCREMENT,name varchar(30) NOT NULL,vehicle_id varchar(6) NOT NULL,driving_years integer NOT NULL,PRIMARY KEY (id),FOREIGN KEY (vehicle_id) REFERENCES Vehicles (id));";
         // "CREATE TABLE IF NOT EXISTS Drivers (\n"
         //         + "ID integer NOT NULL,\n"
         //         + "Name varchar(30) NOT NULL,\n"
@@ -58,12 +58,12 @@ public class Admin {
         //                 FOREIGN KEY(Vehicle_ID) REFERENCES Vehicles,
         //                 );"";
 
-        String vehicles = "CREATE TABLE IF NOT EXISTS Vehicles (id varchar(6) NOT NULL,model varchar(30) NOT NULL,seats integer NOT NULL,PRIMARY KEY(id));";
+        String vehicles = "CREATE TABLE IF NOT EXISTS Vehicles (id varchar(6) NOT NULL AUTO_INCREMENT,model varchar(30) NOT NULL,seats integer NOT NULL,PRIMARY KEY(id));";
 
-        String passengers = "CREATE TABLE IF NOT EXISTS Passengers (id integer NOT NULL, name varchar(30) NOT NULL, PRIMARY KEY(id));";
+        String passengers = "CREATE TABLE IF NOT EXISTS Passengers (id integer NOT NULL AUTO_INCREMENT, name varchar(30) NOT NULL, PRIMARY KEY(id));";
 
         String trips = "CREATE TABLE IF NOT EXISTS Trips (\n"
-                + "	id integer NOT NULL,\n"
+                + "	id integer NOT NULL AUTO_INCREMENT,\n"
                 + "	driver_id integer NOT NULL,\n"
                 + "	passenger_id integer NOT NULL,\n"
                 + "	start_time datetime NOT NULL,\n"
@@ -76,13 +76,13 @@ public class Admin {
                 + "	FOREIGN KEY(passenger_id) REFERENCES Passengers(id)\n"
                 + ");";
 
-        String taxi_stops = "CREATE TABLE IF NOT EXISTS Taxi_stops (name varchar(20) NOT NULL, location_x integer NOT NULL,location_y integer NOT NULL,PRIMARY KEY(name));";
+        String taxi_stops = "CREATE TABLE IF NOT EXISTS Taxi_stops (name varchar(20) NOT NULL AUTO_INCREMENT, location_x integer NOT NULL,location_y integer NOT NULL,PRIMARY KEY(name));";
 
         String requests = "CREATE TABLE IF NOT EXISTS Requests (\n"
-                + "	id integer NOT NULL,\n"
+                + "	id integer NOT NULL AUTO_INCREMENT,\n"
                 + "	passenger_id integer NOT NULL,\n"
                 + "	start_location varchar(20) NOT NULL,\n"
-                + "	destination integer NOT NULL,\n"
+                + "	destination varchar(20) NOT NULL,\n"
                 + "	model varchar(30) NOT NULL,\n"
                 + " passengers integer NOT NULL,\n"
                 + "	taken boolean NOT NULL,\n"
