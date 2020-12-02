@@ -46,7 +46,7 @@ public class Admin {
         } while (!validInput);
     }
 
-    public static void create_tables() {
+    private static void create_tables() {
 
         String drivers = "CREATE TABLE IF NOT EXISTS Drivers (id integer NOT NULL AUTO_INCREMENT,name varchar(30) NOT NULL,vehicle_id varchar(6) NOT NULL,driving_years integer NOT NULL,PRIMARY KEY (id),FOREIGN KEY (vehicle_id) REFERENCES Vehicles (id));";
         // "CREATE TABLE IF NOT EXISTS Drivers (\n"
@@ -67,10 +67,10 @@ public class Admin {
                 + "	driver_id integer NOT NULL,\n"
                 + "	passenger_id integer NOT NULL,\n"
                 + "	start_time datetime NOT NULL,\n"
-                + "	end_time datetime NOT NULL,\n"
+                + "	end_time datetime,\n"
                 + "	start_location varchar(20) NOT NULL,\n"
                 + "	destination varchar(20) NOT NULL,\n"
-                + "	fee integer NOT NULL,\n"
+                + "	fee integer unsigned NOT NULL DEFAULT 0,\n"
                 + " PRIMARY KEY(id),\n"
                 + "	FOREIGN KEY(driver_id) REFERENCES Drivers(id),\n"
                 + "	FOREIGN KEY(passenger_id) REFERENCES Passengers(id)\n"
@@ -108,7 +108,7 @@ public class Admin {
 
     }
 
-    public static void delete_tables() {
+    private static void delete_tables() {
         String drivers = "DROP TABLE IF EXISTS Drivers;";
         String vehicles = "DROP TABLE IF EXISTS Vehicles;";
         String passengers = "DROP TABLE IF EXISTS Passengers;";
@@ -131,7 +131,7 @@ public class Admin {
         }
     }
 
-    public static void load_data() {
+    private static void load_data() {
         String[] csv_files = {"drivers.csv","vehicles.csv","passengers.csv","trips.csv","taxi_stops.csv"};
         System.out.println("Please enter the folder path");
         String folder_path = myObj.next();
@@ -207,7 +207,7 @@ public class Admin {
         }
     }
 
-    public static void check_data(){
+    private static void check_data(){
         String[] tables = {"Drivers","Vehicles","Passengers","Requests","Trips","Taxi_stops"};
         System.out.println("Numbers of records in each table:");
         for (String table: tables) {

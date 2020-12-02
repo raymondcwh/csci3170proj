@@ -59,6 +59,7 @@ public class Main {
                     break;
             }
             // scanner.close();
+            System.out.println("");
         }
     }
 
