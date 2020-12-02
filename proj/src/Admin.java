@@ -40,9 +40,107 @@ public class Admin {
 
     public static void create_tables() {
 
+        String sql1 = "CREATE TABLE IF NOT EXISTS Drivers (\n"
+            + "	ID integer NOT NULL,\n"
+            + "	Name varchar(30) NOT NULL,\n"
+            + "	Vehicle_ID varchar(6) FOREIGN KEY REFERENCES Vehicles (ID) NOT NULL,\n"
+            + " Driving_years integer NOT NULL,\n"
+            + " PRIMARY KEY(ID),\n"
+            + "	FOREIGN KEY(Vehicle_ID) REFERENCES Vehicles,\n"
+            + ");";
+
+        String sql2 = "CREATE TABLE IF NOT EXISTS Vehicles (\n"
+            + "	ID varchar(6) NOT NULL,\n"
+            + "	Model varchar(30) NOT NULL,\n"
+            + "	Seats integer NOT NULL,\n"
+            + " PRIMARY KEY(ID),\n"
+            + ");";
+
+        String sql3 = "CREATE TABLE IF NOT EXISTS Passengers (\n"
+            + "	ID integer NOT NULL,\n"
+            + "	Name varchar(30) NOT NULL,\n"
+            + " PRIMARY KEY(ID),\n"
+            + ");";
+
+        String sql4 = "CREATE TABLE IF NOT EXISTS Trips (\n"
+            + "	ID integer PRIMARY KEY NOT NULL,\n"
+            + "	Driver_ID integer NOT NULL,\n"
+            + "	Passenger_ID integer NOT NULL,\n"
+            + "	Start_time datetime NOT NULL,\n"
+            + "	End_time datetime NOT NULL,\n"
+            + "	Start_location varchar(20) NOT NULL,\n"
+            + "	Destination varchar(20) NOT NULL,\n"
+            + "	Fee Integer NOT NULL,\n"
+            + " PRIMARY KEY(ID),\n"
+            + "	FOREIGN KEY(Driver_ID) REFERENCES Driver,\n"
+            + "	FOREIGN KEY(Passenger_ID) REFERENCES Passenger,\n"
+            + "	FOREIGN KEY(Vehicle_ID) REFERENCES Vehicles,\n"
+            + ");";
+
+        String sql5 = "CREATE TABLE IF NOT EXISTS Taxi_stops (\n"
+            + "	Name varchar(20) NOT NULL,\n"
+            + "	Location_x integer NOT NULL,\n"
+            + "	Location_y integer NOT NULL,\n"
+            + " PRIMARY KEY(Name),\n"
+            + ");";
+
+        String sql6 = "CREATE TABLE IF NOT EXISTS Request (\n"
+            + "	ID integer NOT NULL,\n"
+            + "	Passenger_ID integer NOT NULL,\n"
+            + "	Start_location varchar(20) NOT NULL,\n"
+            + "	destination integer NOT NULL,\n"
+            + "	model varchar(30) NOT NULL,\n"
+            + " passengers integer NOT NULL,\n"
+            + "	taken boolean NOT NULL,\n"
+            + "	driving_years integer NOT NULL,\n"
+            + " PRIMARY KEY(ID),\n"
+            + "	FOREIGN KEY(Passenger_ID) REFERENCES Passenger,\n"
+            + ");";
+
+
+        try (Connection conn = DriverManager.getConnection(url);
+        Statement stmt = conn.createStatement()) {
+            // create a new table
+            stmt.execute(sql2);
+            stmt.execute(sql1);
+            stmt.execute(sql3);
+            stmt.execute(sql4);
+            stmt.execute(sql5);
+            stmt.execute(sql6);
+
+            System.out.println("Processing...Done! Tables are created");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+
     }
 
     public static void delete_tables() {
+
+        String sql11 = "DROP TABLE Driver";
+        String sql12 = "DROP TABLE Vehicle";
+        String sql13 = "DROP TABLE Passenger";
+        String sql14 = "DROP TABLE Request";
+        String sql15 = "DROP TABLE Trip";
+        String sql16 = "DROP TABLE Taxi_stops";
+
+        try (Connection conn = DriverManager.getConnection(url);
+        Statement stmt = conn.createStatement()) {
+            // create a new table
+            stmt.execute(sql11);
+            stmt.execute(sql12);
+            stmt.execute(sql13);
+            stmt.execute(sql14);
+            stmt.execute(sql15);
+            stmt.execute(sql16);
+
+            System.out.println("Processing...Done! Tables are deleted");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
 
     }
 
