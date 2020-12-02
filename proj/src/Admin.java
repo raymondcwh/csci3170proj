@@ -5,6 +5,11 @@ import java.io.*;
 public class Admin {
     private static Connection con = connect();
     private static Scanner myObj = new Scanner(System.in);
+
+    // Admin() {
+
+    // }
+
     public static void start() {
         System.out.println("Administrator, what would you like to do?");
         System.out.println("1. Create tables");
@@ -35,7 +40,7 @@ public class Admin {
         }
     }
 
-    public static Connection connect() {
+    private static Connection connect() {
         String dbAddress = "jdbc:mysql://projgw.cse.cuhk.edu.hk:2633/group45";
         String dbUsername = "Group45";
         String dbPassword = "3170group45";
@@ -57,7 +62,7 @@ public class Admin {
     }
 
     public static void delete_tables() {
-        
+
     }
 
     public static void load_data() {
