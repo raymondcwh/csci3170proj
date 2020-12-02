@@ -83,10 +83,10 @@ public class Admin {
                 + "	passenger_id integer NOT NULL,\n"
                 + "	start_location varchar(20) NOT NULL,\n"
                 + "	destination varchar(20) NOT NULL,\n"
-                + "	model varchar(30) NOT NULL,\n"
+                + "	model varchar(30),\n"
                 + " passengers integer NOT NULL,\n"
                 + "	taken boolean NOT NULL,\n"
-                + "	driving_years integer NOT NULL,\n"
+                + "	driving_years integer unsigned DEFAULT 0,\n"
                 + " PRIMARY KEY(id),\n"
                 + "	FOREIGN KEY(passenger_id) REFERENCES Passengers(id)\n"
                 + ");";
@@ -214,8 +214,10 @@ public class Admin {
             try {
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT COUNT (*) FROM " + table);
-                int rows = rs.getInt(0);
+                rs.next();
+                int rows = rs.getInt(1);
                 System.out.println(table.substring(0, table.length()-1) + ": " + rows);
+                rs.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
