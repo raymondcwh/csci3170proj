@@ -4,6 +4,7 @@ import java.sql.*;
 //java -cp .:C:Users:User:Desktop:Study:Y3 SEM1:CSCI 3170:mysql-connector-java-5.1.49.jar Main
 
 public class Main {
+    private static Scanner scanner = new Scanner(System.in);
     //private static Connection con = connect();
     public static Connection connect() {
         String dbAddress = "jdbc:mysql://projgw.cse.cuhk.edu.hk:2633/group45";
@@ -32,12 +33,11 @@ public class Main {
             System.out.println("4. A manager");
             System.out.println("5. None of the above");
             System.out.println("Please enter [1-4]");
-	        Scanner scanner = new Scanner(System.in);
+	        // Scanner scanner = new Scanner(System.in);
 	        int identity = scanner.nextInt();
             switch (identity) {
                 case 1:
-                    Admin admin = new Admin();
-                    admin.start();
+                    Admin.start();
                     break;
 
                 case 2:

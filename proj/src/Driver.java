@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 
 public class Driver {
+    private static Scanner scanner = new Scanner(System.in);
     boolean validInput = true;
     Connection conn = Main.connect();
 
@@ -15,7 +16,7 @@ public class Driver {
         System.out.println("4. Go back");
         do {
             System.out.println("Please enter [1-4]");
-            Scanner scanner = new Scanner(System.in);
+            // Scanner scanner = new Scanner(System.in);
             int action = scanner.nextInt();
             switch (action) {
                 case 1:
@@ -46,7 +47,7 @@ public class Driver {
     public void searchRequests(){
 
         System.out.println("Please enter your ID.");
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         int driverId = scanner.nextInt();
         while (!validId("Drivers", "id",driverId)){
             System.out.println("[ERROR] Driver not found.");
@@ -64,7 +65,7 @@ public class Driver {
 
     public void takeRequest(){
         System.out.println("Please enter your ID.");
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         int driverId = scanner.nextInt();
         while (!validId("Drivers", "id",driverId)){
             System.out.println("[ERROR] Driver not found.");
@@ -83,7 +84,7 @@ public class Driver {
 
     public void finishTrip(){
         System.out.println("Please enter your ID.");
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         int driverId = scanner.nextInt();
         while (!validId("Drivers", "id",driverId)){
             System.out.println("[ERROR] Driver not found.");
