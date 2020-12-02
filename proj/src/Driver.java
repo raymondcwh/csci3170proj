@@ -1,15 +1,12 @@
-package com.testing;
-
-import java.util.Scanner;
+import java.util.*;
 import java.sql.*;
-import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 
 public class Driver {
-    private static boolean validInput = true;
-    private static Connection conn = Main.connect();
+    private boolean validInput = true;
+    private Connection conn = Main.connect();
 
-    public static void initMessage(){
+    public void initMessage(){
         System.out.println("Driver, what would you like to do?");
         System.out.println("1. Search requests");
         System.out.println("2. Take a request");
@@ -45,7 +42,7 @@ public class Driver {
         }while(!validInput);
     }
 
-    public static void searchRequests(){
+    public void searchRequests(){
         System.out.println("Please enter your ID.");
         Scanner scanner = new Scanner(System.in);
         int driverId = scanner.nextInt();
@@ -58,7 +55,7 @@ public class Driver {
         this.searchRequestsSql(driverId,locX,locY,maxDistance);
     }
 
-    public static void takeRequest(){
+    public void takeRequest(){
         System.out.println("Please enter your ID.");
         Scanner scanner = new Scanner(System.in);
         int driverId = scanner.nextInt();
@@ -69,7 +66,7 @@ public class Driver {
         this.takeRequestSQL(driverId,requestId);
     }
 
-    public static void finishTrip(){
+    public void finishTrip(){
         System.out.println("Please enter your ID.");
         Scanner scanner = new Scanner(System.in);
         int driverId = scanner.nextInt();
@@ -97,7 +94,7 @@ public class Driver {
         }while(!validInput);
     }
 
-    public static void searchRequestsSql (int driverId,int locX,int locY,int maxDistance){
+    public void searchRequestsSql (int driverId,int locX,int locY,int maxDistance){
         //get [driving_years, model, seats]
         int driving_years = -1;
         String model = "";
@@ -118,12 +115,11 @@ public class Driver {
             se.printStackTrace();
         }catch(Exception e) {
             e.printStackTrace();
-        }
-
-        String sqlRequestInfo = "SELECT R.id, P.name, R.passengers, R.start_location, R.destination FROM request R, passenger P, taxi_stop T" +
-                " WHERE R.Driving_years <= %d AND  R.passengers <= %d AND CHARINDEX(R.model.toLowerCase(),%s)!=0 AND T.name = R.start_location AND R.passenger_id = P.id AND (abs(T.location_x-%d)+abs(T.location_y-%d)) <= %d" +
-                " AND R.taken = false";
+       }
         try {
+            String sqlRequestInfo = "SELECT R.id, P.name, R.passengers, R.start_location, R.destination FROM request R, passenger P, taxi_stop T" +
+                    " WHERE R.Driving_years <= %d AND  R.passengers <= %d AND CHARINDEX(R.model.toLowerCase(),\'%s\')!=0 AND T.name = R.start_location AND R.passenger_id = P.id AND (abs(T.location_x-%d)+abs(T.location_y-%d)) <= %d" +
+                    " AND R.taken = false";
             sqlRequestInfo = String.format(sqlRequestInfo, driving_years, seats, model, locX, locY, maxDistance);
             Statement stmt = conn.createStatement();
             ResultSet requestInfo = stmt.executeQuery(sqlRequestInfo);
@@ -144,7 +140,7 @@ public class Driver {
         }
     }
 
-    public static void takeRequestSQL (int driverId,int requestId){
+    public void takeRequestSQL (int driverId,int requestId){
         //Check valid
         ArrayList<Integer> validList = new ArrayList<>();
         int driving_years = -1;
@@ -267,7 +263,7 @@ public class Driver {
         }
     }
 
-    public static void unfinishedTripSql (int driverId){
+    public void unfinishedTripSql (int driverId){
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             String unfinishedTrip = "SELECT T.id, T.passenger_id, T.start_time FROM trip T WHERE T.driver_id = %d AND T.end_time is NULL";
@@ -290,7 +286,7 @@ public class Driver {
         }
     }
 
-    public static void finishTripSql (){
+    public void finishTripSql (){
         System.out.println("Hi!");
     }
 }

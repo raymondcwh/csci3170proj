@@ -3,9 +3,8 @@ import java.util.Scanner;
 import java.io.*;
 
 public class Admin {
-    private static Connection con = connect();
     private static Scanner myObj = new Scanner(System.in);
-
+    private static Connection con = Main.connect();
     // Admin() {
 
     // }
@@ -33,28 +32,10 @@ public class Admin {
                 check_data();
                 break;
             case 5:
-                
                 break;
             default:
                 System.out.println("[ERROR] Invalid input");
         }
-    }
-
-    private static Connection connect() {
-        String dbAddress = "jdbc:mysql://projgw.cse.cuhk.edu.hk:2633/group45";
-        String dbUsername = "Group45";
-        String dbPassword = "3170group45";
-        Connection con = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(dbAddress, dbUsername, dbPassword);
-        } catch (ClassNotFoundException e) {
-            System.out.println("[ERROR]: Java MYSQL DB Driver not found!");
-            System.exit(0);
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return con;
     }
 
     public static void create_tables() {
