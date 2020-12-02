@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.Date;
 import java.sql.*;
 import java.text.*;
-import java.lang.*;
+// import java.lang.*;
 
 public class Passenger {
     private static Scanner sc = new Scanner(System.in);
@@ -42,7 +42,6 @@ public class Passenger {
         int pid, p_num, year = 0;
         String start, destination, model;
         do {
-            Scanner sc = new Scanner(System.in);
             System.out.println("Please enter your ID.");
             pid = sc.nextInt(); //Enter passenger id
             // Detect for error of pid.

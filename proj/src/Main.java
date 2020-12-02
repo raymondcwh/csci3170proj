@@ -41,8 +41,7 @@ public class Main {
                     break;
 
                 case 2:
-                    //Passenger passenger = new Passenger();
-                    //passenger.initMessage();
+                    Passenger.start();
                     break;
 
                 case 3:

@@ -213,7 +213,8 @@ public class Admin {
         for (String table: tables) {
             try {
                 Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT COUNT (*) FROM " + table);
+                String query = "SELECT COUNT(*) FROM " + table;
+                ResultSet rs = stmt.executeQuery(query);
                 rs.next();
                 int rows = rs.getInt(1);
                 System.out.println(table.substring(0, table.length()-1) + ": " + rows);
