@@ -1,13 +1,11 @@
-package admin;
-
 import java.sql.*;
 import java.util.Scanner;
 import java.io.*;
 
 public class Admin {
-    public static Connection con = connect();
-    public static Scanner myObj = new Scanner(System.in);
-    public static void main(String[] args) {
+    private static Connection con = connect();
+    private static Scanner myObj = new Scanner(System.in);
+    public static void main() {
         System.out.println("Administrator, what would you like to do?");
         System.out.println("1. Create tables");
         System.out.println("2. Delete tables");
