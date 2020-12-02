@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 
 public class Driver {
-    boolean validInput = true;
-    Connection conn = Main.connect();
+    private static boolean validInput = true;
+    private static Connection conn = Main.connect();
 
-    public void initMessage(){
+    public static void initMessage(){
         System.out.println("Driver, what would you like to do?");
         System.out.println("1. Search requests");
         System.out.println("2. Take a request");
@@ -45,7 +45,7 @@ public class Driver {
         }while(!validInput);
     }
 
-    public void searchRequests(){
+    public static void searchRequests(){
         System.out.println("Please enter your ID.");
         Scanner scanner = new Scanner(System.in);
         int driverId = scanner.nextInt();
@@ -58,7 +58,7 @@ public class Driver {
         this.searchRequestsSql(driverId,locX,locY,maxDistance);
     }
 
-    public void takeRequest(){
+    public static void takeRequest(){
         System.out.println("Please enter your ID.");
         Scanner scanner = new Scanner(System.in);
         int driverId = scanner.nextInt();
@@ -69,7 +69,7 @@ public class Driver {
         this.takeRequestSQL(driverId,requestId);
     }
 
-    public void finishTrip(){
+    public static void finishTrip(){
         System.out.println("Please enter your ID.");
         Scanner scanner = new Scanner(System.in);
         int driverId = scanner.nextInt();
@@ -97,7 +97,7 @@ public class Driver {
         }while(!validInput);
     }
 
-    public void searchRequestsSql (int driverId,int locX,int locY,int maxDistance){
+    public static void searchRequestsSql (int driverId,int locX,int locY,int maxDistance){
         //get [driving_years, model, seats]
         int driving_years = -1;
         String model = "";
@@ -144,7 +144,7 @@ public class Driver {
         }
     }
 
-    public void takeRequestSQL (int driverId,int requestId){
+    public static void takeRequestSQL (int driverId,int requestId){
         //Check valid
         ArrayList<Integer> validList = new ArrayList<>();
         int driving_years = -1;
@@ -267,7 +267,7 @@ public class Driver {
         }
     }
 
-    public void unfinishedTripSql (int driverId){
+    public static void unfinishedTripSql (int driverId){
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             String unfinishedTrip = "SELECT T.id, T.passenger_id, T.start_time FROM trip T WHERE T.driver_id = %d AND T.end_time is NULL";
@@ -290,7 +290,7 @@ public class Driver {
         }
     }
 
-    public void finishTripSql (){
+    public static void finishTripSql (){
         System.out.println("Hi!");
     }
 }
