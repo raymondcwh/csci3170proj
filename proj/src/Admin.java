@@ -52,6 +52,14 @@ public class Admin {
         return con;
     }
 
+    public static void create_tables() {
+
+    }
+
+    public static void delete_tables() {
+        
+    }
+
     public static void load_data() {
         String[] csv_files = {"drivers.csv","vehicles.csv","passengers.csv","trips.csv","taxi_stops.csv"};
         System.out.println("Please enter the folder path");
