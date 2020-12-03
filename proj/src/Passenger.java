@@ -249,22 +249,23 @@ public class Passenger {
             Date s_date = formatter.parse(start_date);
             Date e_date = formatter.parse(end_date);
             String recordSQL = "SELECT T.id, D.name, V.id, V.model, T.start_time, T.end_time, T.fee, T.start_location, T.destination "+
-            "FROM Trips.T, Passengers P, Drivers D, Vehicles V WHERE " + 
-            "WHERE T.passenger_id = %d AND T.driver_id = D.id AND D.vehicle_id = V.id AND T.destination = \'%s\' " +
+            "FROM Trips T, Passengers P, Drivers D, Vehicles V " + 
+            "WHERE T.passenger_id = %d AND T.driver_id = D.id AND D.vehicle_id = V.id AND T.destination = \'%s\' AND cast(T.start_time AS Date) >= \'%s\' AND cast(T.end_time AS Date) <= \'%s\' " +
             "ORDER BY T.start_time DESC";
+            // SQL still got small problem, many duplicated outputs
             // AND (cast(T.start_time AS Date) >= \'%s\') AND (cast(T.end_time AS Date) <= \'%s\')
-            recordSQL = String.format(recordSQL, pid, destination);
+            recordSQL = String.format(recordSQL, pid, destination, start_date, end_date);
             // start_date, end_date
             Statement stmt = con.createStatement();
             ResultSet recordInfo_rs = stmt.executeQuery(recordSQL);
             System.out.println("Trip_id, Driver Name, Vehicle ID, Vehicle Model, Start, End, Fee, Start Location, Destination");
             while (recordInfo_rs.next()){
-                Timestamp startTime = recordInfo_rs.getTimestamp(5);
-                Timestamp endTime = recordInfo_rs.getTimestamp(6);
-                if ((startTime.compareTo(s_date) >=0) && (endTime.compareTo(e_date) <= 0)){
+                // Timestamp startTime = recordInfo_rs.getTimestamp(5);
+                // Timestamp endTime = recordInfo_rs.getTimestamp(6);
+                // if ((startTime.compareTo(s_date) >=0) && (endTime.compareTo(e_date) <= 0)){
                     int tid = recordInfo_rs.getInt(1);
                     String d_name = recordInfo_rs.getString(2);
-                    int vid = recordInfo_rs.getInt(3);
+                    String vid = recordInfo_rs.getString(3);
                     String v_model = recordInfo_rs.getString(4);
                     String start = recordInfo_rs.getString(5);
                     String end = recordInfo_rs.getString(6);
@@ -272,7 +273,7 @@ public class Passenger {
                     String start_location = recordInfo_rs.getString(8);
                     String end_location = recordInfo_rs.getString(9);
                     System.out.println(tid + ", " + d_name + ", " + vid + ", " + v_model + ", " + start + ", " + end + ", " + fee + ", " + start_location + ", " + end_location);
-                }
+                // }
             }
             recordInfo_rs.close();
         } catch(SQLException se) {
