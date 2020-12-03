@@ -1,4 +1,7 @@
 import java.util.*;
+
+import javax.lang.model.util.ElementScanner6;
+
 import java.sql.*;
 // import java.text.*;
 // import java.lang.*;
@@ -63,6 +66,7 @@ public class Passenger {
             // Detect for error of pid.
             } while (!validInput);
             
+            // Check open request
             try {
                 Statement stmt = con.createStatement();
                 String query = String.format("SELECT COUNT(*) FROM Requests R WHERE R.passenger_id = %d AND R.taken = false", pid);
@@ -133,10 +137,20 @@ public class Passenger {
                 }
             //detect error
             } while (!validInput);
-
-            System.out.println("Please enter the model. (Press enter to skip)");
-            model = sc.nextLine().strip();
+            
+            do {
+                System.out.println("Please enter the model. (Press enter to skip)");
+                model = sc.nextLine().strip();
+                if (model.length() > 30) {
+                    System.out.println("[ERROR] Your model is longer than 30 characters.");
+                    validInput = false;
+                } else {
+                    validInput = true;
+                }
+                model = sc.nextLine().strip();
+            } while (!validInput);
             //detect error
+
             System.out.println("Please enter the minimum driving years of the driver. (Press enter to skip)");
             //year = sc.nextLine().strip();
             year_str = sc.nextLine().strip();
