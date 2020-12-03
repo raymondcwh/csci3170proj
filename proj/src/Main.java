@@ -3,6 +3,8 @@ import java.sql.*;
 //import java.sql.*;
 //java -cp .:C:Users:User:Desktop:Study:Y3 SEM1:CSCI 3170:mysql-connector-java-5.1.49.jar Main
 
+// !!!!REMEMBER CHANGE BACK ALL RETURN ON HOLD STAGE AFTER PROCESSES
+
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
     //private static Connection con = connect();

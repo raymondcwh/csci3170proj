@@ -10,7 +10,7 @@ public class Passenger {
     private static Scanner sc = new Scanner(System.in);
     private static Connection con = Main.connect();
     
-    public static void start(){
+    public static void start() {
         System.out.println("Passenger, what would you like to do?");
         System.out.println("1. Request a ride");
         System.out.println("2. Check trip records");
@@ -41,7 +41,7 @@ public class Passenger {
         }while(!validInput);
     }
 
-    private static void requestRide(){
+    private static void requestRide() {
         int pid, p_num, year = 0;
         String start, destination, model, year_str;
         boolean validInput = true;
