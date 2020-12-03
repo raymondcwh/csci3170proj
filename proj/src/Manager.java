@@ -34,22 +34,22 @@ public class Manager{
     private static void findtrips() {
         int min, max;
         do {
-            System.out.print("Please enter the minimum travelling distance.");
+            System.out.println("Please enter the minimum travelling distance.");
             min = scanner.nextInt();
             if (min < 0) {
                 validInput = false;
-                System.out.print("[ERROR] Invalid minimum travelling distance");
+                System.out.println("[ERROR] Invalid minimum travelling distance");
             } else {
                 validInput = true;
             }
         } while (!validInput);
 
         do {
-            System.out.print("Please enter the maximum travelling distance.");
+            System.out.println("Please enter the maximum travelling distance.");
             max = scanner.nextInt();
             if (max < min){
                 validInput = false;
-                System.out.print("[ERROR] Invalid maximum travelling distance");
+                System.out.println("[ERROR] Invalid maximum travelling distance");
             } else {
                 validInput = true;
             }

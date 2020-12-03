@@ -50,7 +50,7 @@ public class Main {
                     break;
 
                 case 4:
-                    Manager manager = new Manager();
+                    Manager.initMessage();
                     break;
                 case 5:
                     end = true;
