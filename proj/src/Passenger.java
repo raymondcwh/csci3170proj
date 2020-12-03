@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.Date;
 import java.sql.*;
 import java.text.*;
-import java.lang.*;
+// import java.lang.*;
 
 public class Passenger {
     private static Scanner sc = new Scanner(System.in);
@@ -137,15 +137,19 @@ public class Passenger {
         do {
             System.out.println("Please enter your ID.");
             pid = sc.nextInt(); //Enter passenger id
-            Statement stmt = con.createStatement();
-            String query = "SELECT COUNT(*) FROM Passengers P WHERE P.id = " + pid;
-            ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-            if (rs.getInt(1) == 0) {
-                validInput = false;
-                System.out.println("[ERROR] ID not found.");
-            } else {
-                validInput = true;
+            try {
+                Statement stmt = con.createStatement();
+                String query = "SELECT COUNT(*) FROM Passengers P WHERE P.id = " + pid;
+                ResultSet rs = stmt.executeQuery(query);
+                rs.next();
+                if (rs.getInt(1) == 0) {
+                    validInput = false;
+                    System.out.println("[ERROR] ID not found.");
+                } else {
+                    validInput = true;
+                }
+            } catch(SQLException se) {
+                se.printStackTrace();
             }
         // Detect for error of pid.
         } while (!validInput);
@@ -160,15 +164,19 @@ public class Passenger {
         do {
             System.out.println("Please enter the destination.");
             destination = sc.nextLine().strip();
-            Statement stmt = con.createStatement();
-            String query = "SELECT COUNT(*) FROM Taxi_stops TS WHERE TS.name = '" + destination + "'";
-            ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-            if (rs.getInt(1) == 0) {
-                validInput = false;
-                System.out.println("[ERROR] Destination not found.");
-            } else {
-                validInput = true;
+            try {
+                Statement stmt = con.createStatement();
+                String query = "SELECT COUNT(*) FROM Taxi_stops TS WHERE TS.name = '" + destination + "'";
+                ResultSet rs = stmt.executeQuery(query);
+                rs.next();
+                if (rs.getInt(1) == 0) {
+                    validInput = false;
+                    System.out.println("[ERROR] Destination not found.");
+                } else {
+                    validInput = true;
+                }
+            } catch(SQLException se) {
+                se.printStackTrace();
             }
         //detect error
         } while (!validInput);
