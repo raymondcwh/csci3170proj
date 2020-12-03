@@ -35,6 +35,7 @@ public class Driver {
                     break;
 
                 case 4:
+                    validInput = true;
                     break;
 
                 default:

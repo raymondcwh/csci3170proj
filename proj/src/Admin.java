@@ -23,25 +23,30 @@ public class Admin {
             int taskNo = myObj.nextInt();
             switch (taskNo) {
                 case 1:
+                    validInput = true;
                     create_tables();
                     System.out.println("Processing...Done! Tables are created");
                     break;
                 case 2:
+                    validInput = true;
                     delete_tables();
                     System.out.println("Processing...Done! Tables are deleted");
                     break;
                 case 3:
+                    validInput = true;
                     load_data();
                     System.out.println("Processing...Data is loaded!");
                     break;
                 case 4:
+                    validInput = true;
                     check_data();
                     break;
                 case 5:
+                    validInput = true;
                     break;
                 default:
-                    System.out.println("[ERROR] Invalid input");
                     validInput = false;
+                    System.out.println("[ERROR] Invalid input");
             }
         } while (!validInput);
     }

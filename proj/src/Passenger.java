@@ -29,6 +29,7 @@ public class Passenger {
                     break;
 
                 case 3:
+                    validInput = true;
                     break;
 
                 default:
