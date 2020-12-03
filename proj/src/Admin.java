@@ -53,35 +53,48 @@ public class Admin {
 
     private static void create_tables() {
 
-        String drivers = "CREATE TABLE IF NOT EXISTS Drivers (id integer NOT NULL AUTO_INCREMENT,name varchar(30) NOT NULL,vehicle_id varchar(6) NOT NULL,driving_years integer NOT NULL,PRIMARY KEY (id),FOREIGN KEY (vehicle_id) REFERENCES Vehicles (id));";
-        // "CREATE TABLE IF NOT EXISTS Drivers (\n"
-        //         + "ID integer NOT NULL,\n"
-        //         + "Name varchar(30) NOT NULL,\n"
-        //         + "Vehicle_ID varchar(6) FOREIGN KEY REFERENCES Vehicles (ID) NOT NULL,\n"
-        //         + "Driving_years integer NOT NULL,\n"
-        //                 PRIMARY KEY(ID),\n
-        //                 FOREIGN KEY(Vehicle_ID) REFERENCES Vehicles,
-        //                 );"";
+        String drivers = "CREATE TABLE IF NOT EXISTS Drivers (" 
+                + " id integer NOT NULL AUTO_INCREMENT,"
+                + " name varchar(30) NOT NULL,"
+                + " vehicle_id varchar(6) NOT NULL,"
+                + " driving_years integer NOT NULL,"
+                + " PRIMARY KEY (id),"
+                + " FOREIGN KEY (vehicle_id) REFERENCES Vehicles (id)" 
+                + ")";
 
-        String vehicles = "CREATE TABLE IF NOT EXISTS Vehicles (id varchar(6) NOT NULL AUTO_INCREMENT,model varchar(30) NOT NULL,seats integer NOT NULL,PRIMARY KEY(id));";
+        String vehicles = "CREATE TABLE IF NOT EXISTS Vehicles ("
+                + " id varchar(6) NOT NULL AUTO_INCREMENT,"
+                + " model varchar(30) NOT NULL,"
+                + " seats integer NOT NULL,"
+                + " PRIMARY KEY(id)"
+                + ")";
 
-        String passengers = "CREATE TABLE IF NOT EXISTS Passengers (id integer NOT NULL AUTO_INCREMENT, name varchar(30) NOT NULL, PRIMARY KEY(id));";
+        String passengers = "CREATE TABLE IF NOT EXISTS Passengers ("
+                + " id integer NOT NULL AUTO_INCREMENT,"
+                + " name varchar(30) NOT NULL,"
+                + " PRIMARY KEY(id)"
+                + ")";
 
-        String trips = "CREATE TABLE IF NOT EXISTS Trips (\n"
-                + "	id integer NOT NULL AUTO_INCREMENT,\n"
-                + "	driver_id integer NOT NULL,\n"
-                + "	passenger_id integer NOT NULL,\n"
-                + "	start_time datetime NOT NULL,\n"
-                + "	end_time datetime,\n"
-                + "	start_location varchar(20) NOT NULL,\n"
-                + "	destination varchar(20) NOT NULL,\n"
-                + "	fee integer unsigned NOT NULL DEFAULT 0,\n"
-                + " PRIMARY KEY(id),\n"
-                + "	FOREIGN KEY(driver_id) REFERENCES Drivers(id),\n"
-                + "	FOREIGN KEY(passenger_id) REFERENCES Passengers(id)\n"
-                + ");";
+        String trips = "CREATE TABLE IF NOT EXISTS Trips ("
+                + "	id integer NOT NULL AUTO_INCREMENT,"
+                + "	driver_id integer NOT NULL,"
+                + "	passenger_id integer NOT NULL,"
+                + "	start_time datetime NOT NULL,"
+                + "	end_time datetime,"
+                + "	start_location varchar(20) NOT NULL,"
+                + "	destination varchar(20) NOT NULL,"
+                + "	fee integer unsigned NOT NULL DEFAULT 0,"
+                + " PRIMARY KEY(id),"
+                + "	FOREIGN KEY(driver_id) REFERENCES Drivers(id),"
+                + "	FOREIGN KEY(passenger_id) REFERENCES Passengers(id)"
+                + ")";
 
-        String taxi_stops = "CREATE TABLE IF NOT EXISTS Taxi_stops (name varchar(20) NOT NULL AUTO_INCREMENT, location_x integer NOT NULL,location_y integer NOT NULL,PRIMARY KEY(name));";
+        String taxi_stops = "CREATE TABLE IF NOT EXISTS Taxi_stops ("
+                + " name varchar(20) NOT NULL AUTO_INCREMENT,"
+                + " location_x integer NOT NULL,"
+                + " location_y integer NOT NULL,"
+                + " PRIMARY KEY(name)"
+                + ")";
 
         String requests = "CREATE TABLE IF NOT EXISTS Requests (\n"
                 + "	id integer NOT NULL AUTO_INCREMENT,\n"
@@ -94,45 +107,41 @@ public class Admin {
                 + "	driving_years integer unsigned DEFAULT 0,\n"
                 + " PRIMARY KEY(id),\n"
                 + "	FOREIGN KEY(passenger_id) REFERENCES Passengers(id)\n"
-                + ");";
-
-
-        try {
+                + ")";
+        
+                try {
             Statement stmt = con.createStatement();
             // create a new table
-            stmt.execute(vehicles);
-            stmt.execute(drivers);
-            stmt.execute(passengers);
-            stmt.execute(trips);
-            stmt.execute(taxi_stops);
-            stmt.execute(requests);
+            stmt.executeQuery(vehicles);
+            stmt.executeQuery(drivers);
+            stmt.executeQuery(passengers);
+            stmt.executeQuery(trips);
+            stmt.executeQuery(taxi_stops);
+            stmt.executeQuery(requests);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
-
     }
 
     private static void delete_tables() {
-        String drivers = "DROP TABLE IF EXISTS Drivers;";
-        String vehicles = "DROP TABLE IF EXISTS Vehicles;";
-        String passengers = "DROP TABLE IF EXISTS Passengers;";
-        String requests = "DROP TABLE IF EXISTS Requests;";
-        String trips = "DROP TABLE IF EXISTS Trips;";
-        String taxi_stops = "DROP TABLE IF EXISTS Taxi_stops;";
+        String drivers = "DROP TABLE IF EXISTS Drivers";
+        String vehicles = "DROP TABLE IF EXISTS Vehicles";
+        String passengers = "DROP TABLE IF EXISTS Passengers";
+        String requests = "DROP TABLE IF EXISTS Requests";
+        String trips = "DROP TABLE IF EXISTS Trips";
+        String taxi_stops = "DROP TABLE IF EXISTS Taxi_stops";
 
         try {
             Statement stmt = con.createStatement();
             // create a new table
-            stmt.execute(trips);
-            stmt.execute(requests);
-            stmt.execute(drivers);
-            stmt.execute(passengers);
-            stmt.execute(vehicles);
-            stmt.execute(taxi_stops);
+            stmt.executeQuery(trips);
+            stmt.executeQuery(requests);
+            stmt.executeQuery(drivers);
+            stmt.executeQuery(passengers);
+            stmt.executeQuery(vehicles);
+            stmt.executeQuery(taxi_stops);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-
         }
     }
 
@@ -154,11 +163,6 @@ public class Admin {
                                 data[1] = "'" + data[1] + "'";
                                 data[2] = "'" + data[2] + "'";
                                 stmt.executeUpdate("INSERT into Drivers VALUES (" + String.join(",",data) + ")");
-//                                ResultSet rs = stmt.executeQuery("SELECT * FROM Drivers");
-//                                while (rs.next()) {
-//                                    String x = rs.getString("name");
-//                                    System.out.println(x+",");
-//                                }
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
