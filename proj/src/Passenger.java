@@ -46,15 +46,19 @@ public class Passenger {
             do {
                 System.out.println("Please enter your ID.");
                 pid = sc.nextInt(); //Enter passenger id
-                Statement stmt = con.createStatement();
-                String query = "SELECT COUNT(*) FROM Passengers P WHERE P.id = " + pid;
-                ResultSet rs = stmt.executeQuery(query);
-                rs.next();
-                if (rs.getInt(1) == 0) {
-                    validInput = false;
-                    System.out.println("[ERROR] ID not found.");
-                } else {
-                    validInput = true;
+                try {
+                    Statement stmt = con.createStatement();
+                    String query = "SELECT COUNT(*) FROM Passengers P WHERE P.id = " + pid;
+                    ResultSet rs = stmt.executeQuery(query);
+                    rs.next();
+                    if (rs.getInt(1) == 0) {
+                        validInput = false;
+                        System.out.println("[ERROR] ID not found.");
+                    } else {
+                        validInput = true;
+                    }
+                } catch(SQLException se) {
+                    se.printStackTrace();
                 }
             // Detect for error of pid.
             } while (!validInput);
@@ -74,15 +78,19 @@ public class Passenger {
             do {
                 System.out.println("Please enter the start location.");
                 start = sc.nextLine().strip();
-                Statement stmt = con.createStatement();
-                String query = "SELECT COUNT(*) FROM Taxi_stops TS WHERE TS.name = '" + start + "'";
-                ResultSet rs = stmt.executeQuery(query);
-                rs.next();
-                if (rs.getInt(1) == 0) {
-                    validInput = false;
-                    System.out.println("[ERROR] Start location not found.");
-                } else {
-                    validInput = true;
+                try {
+                    Statement stmt = con.createStatement();
+                    String query = "SELECT COUNT(*) FROM Taxi_stops TS WHERE TS.name = '" + start + "'";
+                    ResultSet rs = stmt.executeQuery(query);
+                    rs.next();
+                    if (rs.getInt(1) == 0) {
+                        validInput = false;
+                        System.out.println("[ERROR] Start location not found.");
+                    } else {
+                        validInput = true;
+                    }
+                } catch (SQLException se) {
+                    se.printStackTrace();
                 }
             //detect error
             } while (!validInput);
@@ -95,19 +103,23 @@ public class Passenger {
                     System.out.println("[ERROR] Destination and start location should be different.");
                     continue;
                 }
-                Statement stmt = con.createStatement();
-                String query = "SELECT COUNT(*) FROM Taxi_stops TS WHERE TS.name = '" + destination + "'";
-                ResultSet rs = stmt.executeQuery(query);
-                rs.next();
-                if (rs.getInt(1) == 0) {
-                    validInput = false;
-                    System.out.println("[ERROR] Destination not found.");
-                } else {
-                    validInput = true;
+                try {
+                    Statement stmt = con.createStatement();
+                    String query = "SELECT COUNT(*) FROM Taxi_stops TS WHERE TS.name = '" + destination + "'";
+                    ResultSet rs = stmt.executeQuery(query);
+                    rs.next();
+                    if (rs.getInt(1) == 0) {
+                        validInput = false;
+                        System.out.println("[ERROR] Destination not found.");
+                    } else {
+                        validInput = true;
+                    }
+                } catch(SQLException se) {
+                    se.printStackTrace();
                 }
             //detect error
             } while (!validInput);
-            
+
             System.out.println("Please enter the model. (Press enter to skip)");
             model = sc.nextLine().strip();
             //detect error
@@ -120,19 +132,46 @@ public class Passenger {
     public static void checkRecords(){
         int pid;
         String start_date, end_date, destination;
+        boolean validInput = true;
         // Scanner sc = new Scanner(System.in);
-        System.out.println("Please enter your ID.");
-        pid = sc.nextInt(); //Enter passenger id
+        do {
+            System.out.println("Please enter your ID.");
+            pid = sc.nextInt(); //Enter passenger id
+            Statement stmt = con.createStatement();
+            String query = "SELECT COUNT(*) FROM Passengers P WHERE P.id = " + pid;
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            if (rs.getInt(1) == 0) {
+                validInput = false;
+                System.out.println("[ERROR] ID not found.");
+            } else {
+                validInput = true;
+            }
         // Detect for error of pid.
+        } while (!validInput);
+
         System.out.println("Please enter the start date.");
         start_date = sc.next();
         //detect error
         System.out.println("Please enter the end date.");
         end_date = sc.next();
         //detect error
-        System.out.println("Please enter the destination.");
-        destination = sc.next();
+        
+        do {
+            System.out.println("Please enter the destination.");
+            destination = sc.nextLine().strip();
+            Statement stmt = con.createStatement();
+            String query = "SELECT COUNT(*) FROM Taxi_stops TS WHERE TS.name = '" + destination + "'";
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            if (rs.getInt(1) == 0) {
+                validInput = false;
+                System.out.println("[ERROR] Destination not found.");
+            } else {
+                validInput = true;
+            }
         //detect error
+        } while (!validInput);
         searchRecordsSQL(pid, start_date, end_date, destination);
     }
 
