@@ -69,6 +69,11 @@ public class Driver {
             System.out.println("Please enter your ID.");
             driverId = scanner.nextInt();
         }
+        if (takenTrip(driverId)){
+            System.out.println("[ERROR] You are currently in a trip.");
+            return;
+        }
+
         System.out.println("Please enter the request ID.");
         int requestId = scanner.nextInt();
         while (!validId("Requests", "id",requestId)){
@@ -138,7 +143,7 @@ public class Driver {
         }
         try {
         String sqlRequestInfo = "SELECT R.id, P.name, R.passengers, R.start_location, R.destination FROM Requests R, Passengers P, Taxi_stops T" +
-                " WHERE R.Driving_years <= %d AND  R.passengers <= %d AND LOCATE(\'%s\', R.model)!=0 AND T.name = R.start_location AND R.passenger_id = P.id AND (ABS(T.location_x-%d)+ABS(T.location_y-%d)) <= %d" +
+                " WHERE R.Driving_years <= %d AND  R.passengers <= %d AND LOCATE(R.model,\'%s\')!=0 AND T.name = R.start_location AND R.passenger_id = P.id AND (ABS(T.location_x-%d)+ABS(T.location_y-%d)) <= %d" +
                 " AND R.taken = false";
             sqlRequestInfo = String.format(sqlRequestInfo, driving_years, seats, model,locX, locY, maxDistance);
             Statement stmt = conn.createStatement();
@@ -191,25 +196,8 @@ public class Driver {
         }
 
         try{
-            String driverTaken = "SELECT T.driver_id FROM Trips T WHERE T.driver_id = %d AND T.end_time IS NULL ";
-            driverTaken = String.format(driverTaken,driverId);
-            Statement stmt = conn.createStatement();
-            ResultSet requestInfo = stmt.executeQuery(driverTaken);
-            while(requestInfo.next()){
-                int DID = requestInfo.getInt(1);
-                if (DID == driverId)
-                    taken = true;
-            }
-            requestInfo.close();
-        }catch(SQLException se){
-            se.printStackTrace();
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        try{
             String sqlRequestInfo = "SELECT R.id FROM Requests R, Passengers P" +
-                    " WHERE R.Driving_years <= %d AND  R.passengers <= %d AND LOCATE(R.model, \'%s\')!=0 AND R.passenger_id = P.id AND R.taken = false";
+                    " WHERE R.Driving_years <= %d AND  R.passengers <= %d AND LOCATE(R.model,\'%s\')!=0 AND R.passenger_id = P.id AND R.taken = false";
             sqlRequestInfo = String.format(sqlRequestInfo,driving_years,seats,model);
             Statement stmt = conn.createStatement();
             ResultSet requestInfo = stmt.executeQuery(sqlRequestInfo);
@@ -225,7 +213,7 @@ public class Driver {
         }
 
         //Record taken
-        if(validList.contains(requestId) && taken == false) {
+        if(validList.contains(requestId)) {
             try {
                 String update = "UPDATE Requests SET taken = true WHERE id = %d";
                 update = String.format(update, requestId);
@@ -238,9 +226,6 @@ public class Driver {
             }
         }else if(!validList.contains(requestId)){
             System.out.println("[ERROR] You do not fulfill request requirement.");
-            return;
-        }else if(taken){
-            System.out.println("[ERROR] You are currently in a trip.");
             return;
         }
 
@@ -267,7 +252,7 @@ public class Driver {
 
         try {
             String insert = "INSERT INTO Trips (driver_id, passenger_id, start_location, destination, start_time) VALUES(%d, %d, \'%s\', \'%s\', \'%s\')";
-            insert = String.format(insert, requestId, passengerId, startLoc, destination, formatter.format(timestamp));
+            insert = String.format(insert, driverId, passengerId, startLoc, destination, formatter.format(timestamp));
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(insert,Statement.RETURN_GENERATED_KEYS);
             ResultSet result = stmt.getGeneratedKeys();
@@ -347,7 +332,6 @@ public class Driver {
             tripInfoSQL = String.format(tripInfoSQL, tripId);
             Statement stmt = conn.createStatement();
             ResultSet tripInfo = stmt.executeQuery(tripInfoSQL);
-            System.out.println("Trip ID, Passenger ID, Start");
             while (tripInfo.next()) {
                 Timestamp startTime = tripInfo.getTimestamp(1);
                 Timestamp endTime = tripInfo.getTimestamp(2);
@@ -417,5 +401,26 @@ public class Driver {
             return true;
         else
             return false;
+    }
+
+    public boolean takenTrip(int driverId){
+        boolean taken = false;
+        try{
+            String driverTaken = "SELECT COUNT(*) FROM Trips T WHERE T.driver_id = %d AND T.end_time IS NULL ";
+            driverTaken = String.format(driverTaken,driverId);
+            Statement stmt = conn.createStatement();
+            ResultSet requestInfo = stmt.executeQuery(driverTaken);
+            while(requestInfo.next()){
+                int count = requestInfo.getInt(1);
+                if (count != 0)
+                    taken = true;
+            }
+            requestInfo.close();
+        }catch(SQLException se){
+            se.printStackTrace();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return taken;
     }
 }

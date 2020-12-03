@@ -63,6 +63,19 @@ public class Passenger {
             // Detect for error of pid.
             } while (!validInput);
             
+            try {
+                Statement stmt = con.createStatement();
+                String query = String.format("SELECT COUNT(*) FROM Requests R WHERE R.passenger_id = %d AND R.taken IS NULL", pid);
+                ResultSet rs = stmt.executeQuery(query);
+                rs.next();
+                if (rs.getInt(1) != 0) {
+                    System.out.println("[ERROR] You have an open request already.");
+                    break;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            
             do {
                 System.out.println("Please enter the number of Passengers.");
                 p_num = sc.nextInt();
