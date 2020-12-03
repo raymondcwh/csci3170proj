@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.Date;
 import java.sql.*;
 import java.text.*;
-// import java.lang.*;
+import java.lang.*;
 
 public class Passenger {
     private static Scanner sc = new Scanner(System.in);
@@ -41,21 +41,75 @@ public class Passenger {
     public static void requestRide(){
         int pid, p_num, year = 0;
         String start, destination, model;
+        boolean validInput = true;
         do {
-            System.out.println("Please enter your ID.");
-            pid = sc.nextInt(); //Enter passenger id
+            do {
+                System.out.println("Please enter your ID.");
+                pid = sc.nextInt(); //Enter passenger id
+                Statement stmt = con.createStatement();
+                String query = "SELECT COUNT(*) FROM Passengers P WHERE P.id = " + pid;
+                ResultSet rs = stmt.executeQuery(query);
+                rs.next();
+                if (rs.getInt(1) == 0) {
+                    validInput = false;
+                    System.out.println("[ERROR] ID not found.");
+                } else {
+                    validInput = true;
+                }
             // Detect for error of pid.
-            System.out.println("Please enter the number of Passengers.");
-            p_num = sc.nextInt();
+            } while (!validInput);
+            
+            do {
+                System.out.println("Please enter the number of Passengers.");
+                p_num = sc.nextInt();
+                if ((p_num > 8) || (p_num < 1)) {
+                    validInput = false;
+                    System.out.println("[ERROR] Invalid number of passengers.");
+                } else {
+                    validInput = true;
+                }
+            // Detect error
+            } while (!validInput);
+
+            do {
+                System.out.println("Please enter the start location.");
+                start = sc.nextLine().strip();
+                Statement stmt = con.createStatement();
+                String query = "SELECT COUNT(*) FROM Taxi_stops TS WHERE TS.name = '" + start + "'";
+                ResultSet rs = stmt.executeQuery(query);
+                rs.next();
+                if (rs.getInt(1) == 0) {
+                    validInput = false;
+                    System.out.println("[ERROR] Start location not found.");
+                } else {
+                    validInput = true;
+                }
             //detect error
-            System.out.println("Please enter the start location.");
-            start = sc.next();
+            } while (!validInput);
+
+            do {
+                System.out.println("Please enter the destination.");
+                destination = sc.nextLine().strip();
+                if (destination.equalsIgnoreCase(start)) {
+                    validInput = false;
+                    System.out.println("[ERROR] Destination and start location should be different.");
+                    continue;
+                }
+                Statement stmt = con.createStatement();
+                String query = "SELECT COUNT(*) FROM Taxi_stops TS WHERE TS.name = '" + destination + "'";
+                ResultSet rs = stmt.executeQuery(query);
+                rs.next();
+                if (rs.getInt(1) == 0) {
+                    validInput = false;
+                    System.out.println("[ERROR] Destination not found.");
+                } else {
+                    validInput = true;
+                }
             //detect error
-            System.out.println("Please enter the destination.");
-            destination = sc.next();
-            //detect error
+            } while (!validInput);
+            
             System.out.println("Please enter the model. (Press enter to skip)");
-            model = sc.next();
+            model = sc.nextLine().strip();
             //detect error
             System.out.println("Please enter the minimum driving years of the driver. (Press enter to skip)");
             year = sc.nextInt();
