@@ -126,9 +126,10 @@ public class Passenger {
             //detect error
             System.out.println("Please enter the minimum driving years of the driver. (Press enter to skip)");
             //year = sc.nextLine().strip();
-            String tempDriveYear = sc.nextLine();
-            if(tempDriveYear != null && !tempDriveYear.isEmpty())
-                year = Integer.parseInt(tempDriveYear);
+            year_str = sc.nextLine().strip();
+            if(!year_str.isEmpty()) {
+                year = Integer.parseInt(year_str);
+            }
             //detect error
         } while(searchDriversSQL(pid, p_num, start, destination, model, year));
     }
