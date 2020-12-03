@@ -90,7 +90,7 @@ public class Admin {
                 + "	destination varchar(20) NOT NULL,\n"
                 + "	model varchar(30),\n"
                 + " passengers integer NOT NULL,\n"
-                + "	taken boolean NOT NULL,\n"
+                + "	taken boolean DEFAULT false,\n"
                 + "	driving_years integer unsigned DEFAULT 0,\n"
                 + " PRIMARY KEY(id),\n"
                 + "	FOREIGN KEY(passenger_id) REFERENCES Passengers(id)\n"

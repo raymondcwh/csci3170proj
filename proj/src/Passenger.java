@@ -40,7 +40,7 @@ public class Passenger {
 
     private static void requestRide(){
         int pid, p_num, year = 0;
-        String start, destination, model;
+        String start, destination, model, year_str;
         boolean validInput = true;
         do {
             do {
@@ -125,7 +125,10 @@ public class Passenger {
             model = sc.nextLine().strip();
             //detect error
             System.out.println("Please enter the minimum driving years of the driver. (Press enter to skip)");
-            year = sc.nextInt();
+            //year = sc.nextLine().strip();
+            String tempDriveYear = sc.nextLine();
+            if(tempDriveYear != null && !tempDriveYear.isEmpty())
+                year = Integer.parseInt(tempDriveYear);
             //detect error
         } while(searchDriversSQL(pid, p_num, start, destination, model, year));
     }
