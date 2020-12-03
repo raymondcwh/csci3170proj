@@ -156,10 +156,12 @@ public class Passenger {
         } while (!validInput);
 
         System.out.println("Please enter the start date.");
-        start_date = sc.next();
+        start_date = sc.nextLine();
+        start_date = sc.nextLine();
+
         //detect error
         System.out.println("Please enter the end date.");
-        end_date = sc.next();
+        end_date = sc.nextLine();
         //detect error
         
         do {
@@ -241,7 +243,7 @@ public class Passenger {
     }
 
     private static void searchRecordsSQL(int pid, String start_date, String end_date, String destination){
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MMM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         //HH:mm:ss
         try {
             Date s_date = formatter.parse(start_date);

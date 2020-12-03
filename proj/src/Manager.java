@@ -62,12 +62,12 @@ public class Manager{
         // SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         try {
-            String sqlManagerInfo = "SELECT T.id, D.name, P.name, T.start_location, T.destination, duration = TIMESTAMPDIFF(MINUTE, T.start_time, T.end_time) " + 
+            String sqlManagerInfo = "SELECT T.id, D.name, P.name, T.start_location, T.destination, TIMESTAMPDIFF(MINUTE, T.start_time, T.end_time) AS duration " + 
                                     "FROM Trips T, Drivers D, Passengers P " +
                                     "WHERE T.driver_id = D.id AND T.passenger_id = P.id AND T.id IN " + 
                                     "(SELECT T.id " +
                                     "FROM Trips T, Taxi_stops TS1, Taxi_stops TS2 " +
-                                    "WHERE T.start_location = TS1.name AND T.destination = TS2.name AND (abs(TS1.location_x - TS2.loaction_x) + abs(TS1.location_y - TS2.location_y)) >= %d AND (abs(TS1.location_x - TS2.location_x) + abs(TS1.location_y - TS2.location_y)) <= %d)";
+                                    "WHERE T.start_location = TS1.name AND T.destination = TS2.name AND (abs(TS1.location_x - TS2.location_x) + abs(TS1.location_y - TS2.location_y)) >= %d AND (abs(TS1.location_x - TS2.location_x) + abs(TS1.location_y - TS2.location_y)) <= %d)";
             //T.end_time - T.start_time
             sqlManagerInfo = String.format(sqlManagerInfo,min,max);
             Statement stmt = con.createStatement();
@@ -79,9 +79,9 @@ public class Manager{
                 String passengerName = ManagerInfo.getString(3);
                 String startLocation = ManagerInfo.getString(4);
                 String destination = ManagerInfo.getString(5);
-                long duration = ManagerInfo.getInt(6);
-                int diffMin = (int)(duration/(60 * 1000));
-                System.out.println( tripId + ", " + driverName + ", " + passengerName + ", " + startLocation + ", " + destination + ", " + diffMin);
+                int duration = ManagerInfo.getInt(6);
+                // int diffMin = (int)(duration/(60 * 1000));
+                System.out.println( tripId + ", " + driverName + ", " + passengerName + ", " + startLocation + ", " + destination + ", " + duration);
             }
             ManagerInfo.close();
         } catch (SQLException se) {
