@@ -65,7 +65,7 @@ public class Passenger {
             
             try {
                 Statement stmt = con.createStatement();
-                String query = String.format("SELECT COUNT(*) FROM Requests R WHERE R.passenger_id = %d AND R.taken IS NULL", pid);
+                String query = String.format("SELECT COUNT(*) FROM Requests R WHERE R.passenger_id = %d AND R.taken = false", pid);
                 ResultSet rs = stmt.executeQuery(query);
                 rs.next();
                 if (rs.getInt(1) != 0) {
