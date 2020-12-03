@@ -50,9 +50,8 @@ public class Main {
                     break;
 
                 case 4:
-                    //Manager manager = new Manager();
+                    Manager manager = new Manager();
                     break;
-
                 case 5:
                     end = true;
                     break;

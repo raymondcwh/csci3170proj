@@ -39,7 +39,7 @@ public class Passenger {
         }while(!validInput);
     }
 
-    public static void requestRide(){
+    private static void requestRide(){
         int pid, p_num, year = 0;
         String start, destination, model;
         boolean validInput = true;
@@ -130,7 +130,7 @@ public class Passenger {
         } while(searchDriversSQL(pid, p_num, start, destination, model, year));
     }
 
-    public static void checkRecords(){
+    private static void checkRecords(){
         int pid;
         String start_date, end_date, destination;
         boolean validInput = true;
@@ -184,7 +184,7 @@ public class Passenger {
         searchRecordsSQL(pid, start_date, end_date, destination);
     }
 
-    public static boolean searchDriversSQL(int pid, int p_num, String start, String destination, String model, int year){
+    private static boolean searchDriversSQL(int pid, int p_num, String start, String destination, String model, int year){
         boolean search_fail = false;
         try {
             String sqlDriverInfo = "SELECT COUNT(*) FROM Drivers D, Vehicles V WHERE V.seats >= %d AND V.id = D.vehicle_id";
@@ -240,7 +240,7 @@ public class Passenger {
         return search_fail;
     }
 
-    public static void searchRecordsSQL(int pid, String start_date, String end_date, String destination){
+    private static void searchRecordsSQL(int pid, String start_date, String end_date, String destination){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MMM-dd");
         //HH:mm:ss
         try {
@@ -280,7 +280,7 @@ public class Passenger {
         }
     }
 
-    public static void insertRequest(int pid, String start, String destination, String model, int p_num, int year){
+    private static void insertRequest(int pid, String start, String destination, String model, int p_num, int year){
         try {
             String insertSQL = "INSERT INTO Requests (passenger_id, start_location, destination, model, passengers, driving_years) VALUES (%d, \'%s\', \'%s\', \'%s\', %d, %d)";
             insertSQL = String.format(insertSQL, pid, start, destination, model, p_num, year);
