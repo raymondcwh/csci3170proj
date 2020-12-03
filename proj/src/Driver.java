@@ -138,7 +138,7 @@ public class Driver {
         }
         try {
         String sqlRequestInfo = "SELECT R.id, P.name, R.passengers, R.start_location, R.destination FROM Requests R, Passengers P, Taxi_stops T" +
-                " WHERE R.Driving_years <= %d AND  R.passengers <= %d AND LOCATE(R.model,\'%s\')!=0 AND T.name = R.start_location AND R.passenger_id = P.id AND (ABS(T.location_x-%d)+ABS(T.location_y-%d)) <= %d" +
+                " WHERE R.Driving_years <= %d AND  R.passengers <= %d AND LOCATE(\'%s\', R.model)!=0 AND T.name = R.start_location AND R.passenger_id = P.id AND (ABS(T.location_x-%d)+ABS(T.location_y-%d)) <= %d" +
                 " AND R.taken = false";
             sqlRequestInfo = String.format(sqlRequestInfo, driving_years, seats, model,locX, locY, maxDistance);
             Statement stmt = conn.createStatement();
@@ -209,7 +209,7 @@ public class Driver {
 
         try{
             String sqlRequestInfo = "SELECT R.id FROM Requests R, Passengers P" +
-                    " WHERE R.Driving_years <= %d AND  R.passengers <= %d AND LOCATE(R.model,\'%s\')!=0 AND R.passenger_id = P.id AND R.taken = false";
+                    " WHERE R.Driving_years <= %d AND  R.passengers <= %d AND LOCATE(R.model, \'%s\')!=0 AND R.passenger_id = P.id AND R.taken = false";
             sqlRequestInfo = String.format(sqlRequestInfo,driving_years,seats,model);
             Statement stmt = conn.createStatement();
             ResultSet requestInfo = stmt.executeQuery(sqlRequestInfo);

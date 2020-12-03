@@ -66,6 +66,7 @@ public class Passenger {
             do {
                 System.out.println("Please enter the number of Passengers.");
                 p_num = sc.nextInt();
+                sc.nextLine();
                 if ((p_num > 8) || (p_num < 1)) {
                     validInput = false;
                     System.out.println("[ERROR] Invalid number of passengers.");
@@ -189,11 +190,12 @@ public class Passenger {
         boolean search_fail = false;
         try {
             String sqlDriverInfo = "SELECT COUNT(*) FROM Drivers D, Vehicles V WHERE V.seats >= %d AND V.id = D.vehicle_id";
+            sqlDriverInfo = String.format(sqlDriverInfo, p_num);
             if (model != null) {
-                sqlDriverInfo += " AND LOCATE(V.model,\'%s\') != 0";
+                sqlDriverInfo += String.format(" AND LOCATE(\'%s\', V.model) != 0", model);
             }
             if (year > 0) {
-                sqlDriverInfo += " AND D.driving_years >= %d ";
+                sqlDriverInfo += String.format(" AND D.driving_years >= %d", year);
             }
             Statement stmt = con.createStatement();
             ResultSet driverInfo_rs = stmt.executeQuery(sqlDriverInfo);
@@ -248,10 +250,11 @@ public class Passenger {
             // Date s_date = formatter.parse(start_date);
             // Date e_date = formatter.parse(end_date);
             String recordSQL = "SELECT T.id, D.name, V.id, V.model, T.start_time, T.end_time, T.fee, T.start_location, T.destination "+
-            "FROM Trips T, Passengers P, Drivers D, Vehicles V " + 
+            "FROM Trips T, Drivers D, Vehicles V " + 
             "WHERE T.passenger_id = %d AND T.driver_id = D.id AND D.vehicle_id = V.id AND T.destination = \'%s\' AND cast(T.start_time AS Date) >= \'%s\' AND cast(T.end_time AS Date) <= \'%s\' " +
             "ORDER BY T.start_time DESC";
             // SQL still got small problem, many duplicated outputs
+            // Passengers P
             // AND (cast(T.start_time AS Date) >= \'%s\') AND (cast(T.end_time AS Date) <= \'%s\')
             recordSQL = String.format(recordSQL, pid, destination, start_date, end_date);
             // start_date, end_date
