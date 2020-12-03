@@ -1,7 +1,6 @@
 import java.util.*;
-import java.util.Date;
 import java.sql.*;
-import java.text.*;
+// import java.text.*;
 // import java.lang.*;
 
 public class Passenger {
@@ -243,11 +242,11 @@ public class Passenger {
     }
 
     private static void searchRecordsSQL(int pid, String start_date, String end_date, String destination){
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        // SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         //HH:mm:ss
         try {
-            Date s_date = formatter.parse(start_date);
-            Date e_date = formatter.parse(end_date);
+            // Date s_date = formatter.parse(start_date);
+            // Date e_date = formatter.parse(end_date);
             String recordSQL = "SELECT T.id, D.name, V.id, V.model, T.start_time, T.end_time, T.fee, T.start_location, T.destination "+
             "FROM Trips T, Passengers P, Drivers D, Vehicles V " + 
             "WHERE T.passenger_id = %d AND T.driver_id = D.id AND D.vehicle_id = V.id AND T.destination = \'%s\' AND cast(T.start_time AS Date) >= \'%s\' AND cast(T.end_time AS Date) <= \'%s\' " +
