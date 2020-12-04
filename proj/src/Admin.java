@@ -112,12 +112,12 @@ public class Admin {
                 try {
             Statement stmt = con.createStatement();
             // create a new table
-            stmt.executeQuery(vehicles);
-            stmt.executeQuery(drivers);
-            stmt.executeQuery(passengers);
-            stmt.executeQuery(trips);
-            stmt.executeQuery(taxi_stops);
-            stmt.executeQuery(requests);
+            stmt.executeUpdate(vehicles);
+            stmt.executeUpdate(drivers);
+            stmt.executeUpdate(passengers);
+            stmt.executeUpdate(trips);
+            stmt.executeUpdate(taxi_stops);
+            stmt.executeUpdate(requests);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -134,19 +134,19 @@ public class Admin {
         try {
             Statement stmt = con.createStatement();
             // create a new table
-            stmt.executeQuery(trips);
-            stmt.executeQuery(requests);
-            stmt.executeQuery(drivers);
-            stmt.executeQuery(passengers);
-            stmt.executeQuery(vehicles);
-            stmt.executeQuery(taxi_stops);
+            stmt.executeUpdate(trips);
+            stmt.executeUpdate(requests);
+            stmt.executeUpdate(drivers);
+            stmt.executeUpdate(passengers);
+            stmt.executeUpdate(vehicles);
+            stmt.executeUpdate(taxi_stops);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
     private static void load_data() {
-        String[] csv_files = {"drivers.csv","vehicles.csv","passengers.csv","trips.csv","taxi_stops.csv"};
+        String[] csv_files = {"vehicles.csv","drivers.csv","passengers.csv","trips.csv","taxi_stops.csv"};
         System.out.println("Please enter the folder path");
         String folder_path = myObj.next();
         for (String csv_file : csv_files) {
