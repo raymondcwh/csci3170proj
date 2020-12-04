@@ -202,7 +202,7 @@ public class Admin {
                             try {
                                 Statement stmt = con.createStatement();
                                 data[0] = "'" + data[0] + "'";
-                                stmt.executeUpdate("INSERT into Taxi_stop VALUES (" + String.join(",",data) + ")");
+                                stmt.executeUpdate("INSERT into Taxi_stops VALUES (" + String.join(",",data) + ")");
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
